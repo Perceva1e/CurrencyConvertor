@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f3f4f6;
+}
+
+.react-select__control {
+  background-color: white !important;
+  color: #1f2937 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.react-select__single-value {
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+}
+
+.react-select__option--is-selected {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+.react-select__option:hover {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+}
+
+.currency-card {
+  transition: all 0.3s ease;
+}
+
+.currency-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-modal-content {
+  background-color: white;
+  color: #1f2937;
+}
+
+.react-select__menu {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+.react-select__menu-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.z-60 {
+  z-index: 60;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
