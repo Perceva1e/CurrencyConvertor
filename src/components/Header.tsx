@@ -7,8 +7,9 @@ import {
   FaUserCircle 
 } from 'react-icons/fa';
 import SettingsModal from './SettingsModal';
-import { selectBaseCurrency } from '../store/slices/currencySlice';
 import { useSelector } from 'react-redux';
+import { type RootState } from '../store/store';
+import { DEFAULT_CURRENCY } from '../utils/helpers';
 
 interface NavItem {
   path: string;
@@ -18,7 +19,7 @@ interface NavItem {
 
 const Header: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const baseCurrency = useSelector(selectBaseCurrency);
+  const baseCurrency = useSelector((state: RootState) => state.currency.baseCurrency || DEFAULT_CURRENCY);
   const location = useLocation();
 
   useEffect(() => {

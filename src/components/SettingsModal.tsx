@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setBaseCurrency } from '../store/slices/currencySlice';
 import Select, { type SingleValue, type StylesConfig } from 'react-select';
-import { getCurrencyName } from '../utils/helpers';
+import { getCurrencyName, DEFAULT_CURRENCY } from '../utils/helpers';
 import { type RootState } from '../store/store';
 
 interface CurrencyOption {
@@ -17,8 +17,8 @@ interface SettingsModalProps {
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const baseCurrency = useSelector((state: RootState) => state.currency.baseCurrency);
-  const exchangeRates = useSelector((state: RootState) => state.currency.exchangeRates);
+  const baseCurrency = useSelector((state: RootState) => state.currency.baseCurrency || DEFAULT_CURRENCY);
+  const exchangeRates = useSelector((state: RootState) => state.currency.exchangeRates || {});
   const [selectedCurrency, setSelectedCurrency] = useState<string>(baseCurrency);
   const [currencyOptions, setCurrencyOptions] = useState<CurrencyOption[]>([]);
   

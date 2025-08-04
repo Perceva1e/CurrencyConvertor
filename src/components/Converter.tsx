@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useMemo, type ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { FaExchangeAlt, FaSpinner } from 'react-icons/fa';
-import Select, {type SingleValue } from 'react-select';
-import { convertCurrency, formatCurrency } from '../utils/helpers';
-import { 
-  selectBaseCurrency, 
-  selectExchangeRates, 
-  selectStatus 
-} from '../store/slices/currencySlice';
+import Select, { type SingleValue } from 'react-select';
+import { convertCurrency, formatCurrency, DEFAULT_CURRENCY } from '../utils/helpers';
+import { type RootState } from '../store/store';
 
 interface CurrencyOption {
   value: string;
@@ -15,9 +11,9 @@ interface CurrencyOption {
 }
 
 const Converter: React.FC = () => {
-  const baseCurrency = useSelector(selectBaseCurrency);
-  const exchangeRates = useSelector(selectExchangeRates);
-  const status = useSelector(selectStatus);
+  const baseCurrency = useSelector((state: RootState) => state.currency.baseCurrency || DEFAULT_CURRENCY);
+  const exchangeRates = useSelector((state: RootState) => state.currency.exchangeRates || {});
+  const status = useSelector((state: RootState) => state.currency.status || 'idle');
   
   const currencies = useMemo(() => 
     exchangeRates ? Object.keys(exchangeRates) : []

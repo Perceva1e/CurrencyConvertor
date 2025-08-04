@@ -1,12 +1,7 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import { fetchExchangeRates as fetchApi } from '../../services/currencyAPI';
 import { type RootState } from '../store';
-
-const DEFAULT_RUSSIAN_CURRENCY = 'RUB';
-const DEFAULT_CURRENCY = 'USD';
-
-const LOCAL_STORAGE_BASE_CURRENCY = 'baseCurrency';
-const LOCAL_STORAGE_FAVORITE_CURRENCIES = 'favoriteCurrencies';
+import { loadFromLocalStorage, LOCAL_STORAGE_BASE_CURRENCY, LOCAL_STORAGE_FAVORITE_CURRENCIES } from '../../utils/helpers';
 
 interface CurrencyState {
   baseCurrency: string;
@@ -15,18 +10,6 @@ interface CurrencyState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
-
-const loadFromLocalStorage = (): { baseCurrency: string, favoriteCurrencies: string[] } => {
-  let baseCurrency = localStorage.getItem(LOCAL_STORAGE_BASE_CURRENCY);
-  if (!baseCurrency) {
-    baseCurrency = navigator.language.includes('ru') ? DEFAULT_RUSSIAN_CURRENCY : DEFAULT_CURRENCY;
-  }
-  const favoriteCurrencies = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE_FAVORITE_CURRENCIES) || '[]'
-  ) as string[];
-  
-  return { baseCurrency, favoriteCurrencies };
-};
 
 const initialState: CurrencyState = {
   ...loadFromLocalStorage(),
@@ -83,20 +66,5 @@ const currencySlice = createSlice({
 });
 
 export const { setBaseCurrency, toggleFavoriteCurrency } = currencySlice.actions;
-
-export const selectBaseCurrency = (state: RootState) =>
-  state.currency.baseCurrency || DEFAULT_CURRENCY;
-
-export const selectFavoriteCurrencies = (state: RootState) =>
-  state.currency.favoriteCurrencies || [];
-
-export const selectExchangeRates = (state: RootState) =>
-  state.currency.exchangeRates || {};
-
-export const selectStatus = (state: RootState) =>
-  state.currency.status || 'idle';
-
-export const selectError = (state: RootState) =>
-  state.currency.error || null;
 
 export default currencySlice.reducer;

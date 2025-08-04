@@ -1,15 +1,10 @@
 import React, { useState, useMemo, type ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-  selectBaseCurrency, 
-  selectExchangeRates, 
-  selectFavoriteCurrencies,
-  toggleFavoriteCurrency
-} from '../store/slices/currencySlice';
+import { toggleFavoriteCurrency } from '../store/slices/currencySlice';
 import CurrencyCard from './CurrencyCard';
 import { FaStar, FaSearch } from 'react-icons/fa';
-import { getCurrencyName } from '../utils/helpers';
-import { type AppDispatch } from '../store/store';
+import { getCurrencyName, DEFAULT_CURRENCY } from '../utils/helpers';
+import { type RootState, type AppDispatch } from '../store/store';
 
 interface CurrencyItem {
   code: string;
@@ -20,9 +15,9 @@ interface CurrencyItem {
 
 const CurrencyList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const baseCurrency = useSelector(selectBaseCurrency);
-  const exchangeRates = useSelector(selectExchangeRates);
-  const favoriteCurrencies = useSelector(selectFavoriteCurrencies);
+  const baseCurrency = useSelector((state: RootState) => state.currency.baseCurrency || DEFAULT_CURRENCY);
+  const exchangeRates = useSelector((state: RootState) => state.currency.exchangeRates || {});
+  const favoriteCurrencies = useSelector((state: RootState) => state.currency.favoriteCurrencies || []);
   const [searchTerm, setSearchTerm] = useState<string>('');
   
   const currencies = useMemo<CurrencyItem[]>(() => {

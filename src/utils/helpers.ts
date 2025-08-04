@@ -1,3 +1,32 @@
+export const DEFAULT_RUSSIAN_CURRENCY = 'RUB';
+export const DEFAULT_CURRENCY = 'USD';
+
+export const LOCAL_STORAGE_BASE_CURRENCY = 'baseCurrency';
+export const LOCAL_STORAGE_FAVORITE_CURRENCIES = 'favoriteCurrencies';
+
+export const loadFromLocalStorage = (): { baseCurrency: string; favoriteCurrencies: string[] } => {
+  let baseCurrency = localStorage.getItem(LOCAL_STORAGE_BASE_CURRENCY);
+  if (!baseCurrency) {
+    baseCurrency = navigator.language.includes('ru') ? DEFAULT_RUSSIAN_CURRENCY : DEFAULT_CURRENCY;
+  }
+
+  let favoriteCurrencies: string[] = [];
+  try {
+    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_FAVORITE_CURRENCIES);
+    if (storedFavorites) {
+      favoriteCurrencies = JSON.parse(storedFavorites) as string[];
+      if (!Array.isArray(favoriteCurrencies) || favoriteCurrencies.some(item => typeof item !== 'string')) {
+        favoriteCurrencies = [];
+      }
+    }
+  } catch (error) {
+    console.error('Error parsing favoriteCurrencies from localStorage:', error);
+    favoriteCurrencies = [];
+  }
+
+  return { baseCurrency, favoriteCurrencies };
+};
+
 export const convertCurrency = (
   amount: number,
   from: string,
