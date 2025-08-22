@@ -23,3 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Configuration files
+*.config.js
+*.config.ts
+*.config.json
+
+# JSON files (except essential ones)
+*.json
